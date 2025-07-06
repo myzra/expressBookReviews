@@ -44,10 +44,10 @@ regd_users.post("/login", (req,res) => {
 regd_users.put("/auth/review/:isbn", (req, res) => {
   const isbn = req.params.isbn;
   const review = req.query.review;
-  const u = req.session.authorization?.u;
+  const u = req.session.authorization?.username;
 
-  if(!username) {
-    return res.status(401).json({ message: "Use not logged in" });
+  if(!u) {
+    return res.status(401).json({ message: "User not logged in" });
   }
 
   if(!review) {
@@ -60,7 +60,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     return res.status(400).json({ message: "No book found" });
   }
 
-  books.reviews[username] = review;
+  b.reviews[u] = review;
 
   return res.status(200).json({
     message: "Review successfully added/updated",
